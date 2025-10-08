@@ -1,158 +1,129 @@
-# 🌾 الغلة (La Ghalla) - Agricultural Marketplace
+# Elghella - Algeria's Premier AgriTech Marketplace
 
-A modern, ultra-responsive agricultural marketplace platform built with Next.js 14, TypeScript, Firebase, and Tailwind CSS. Features a premium dark green glassmorphic theme with orange accents, advanced gradients, and smooth transitions.
+A modern, comprehensive agricultural marketplace platform connecting farmers, buyers, and agricultural service providers across Algeria.
 
-## 🚀 Features
+## 🌾 Features
 
-### ✅ Completed Features
-- **Modern UI/UX**: Premium glassmorphic design with green/orange color scheme
-- **RTL Arabic Support**: Full right-to-left layout support
-- **Authentication System**: Complete user registration, login, and profile management
-- **Equipment Marketplace**: 
-  - Browse and search agricultural equipment
-  - Detailed equipment listings with images
-  - Create and manage equipment listings
-  - Advanced filtering and sorting
-- **Land Marketplace**:
-  - Browse agricultural land for sale and rent
-  - Detailed land listings with area, soil type, water source
-  - Create and manage land listings
-  - Advanced search and filtering
-- **User Dashboard**: Profile management and listing overview
-- **Responsive Design**: Mobile-first approach with perfect responsiveness
-- **Image Upload**: Firebase storage integration for listing images
-- **Real-time Updates**: Live data with Firebase real-time subscriptions
+- **Multi-Category Marketplace**
+  - Livestock & Animals
+  - Agricultural Equipment
+  - Land Sales & Rentals
+  - Vegetables & Produce
+  - Plant Nurseries
+  - Expert Consultations
 
-### 🔧 Technical Features
-- **Next.js 14 App Router**: Latest Next.js features with server-side rendering
-- **TypeScript**: Full type safety throughout the application
-- **Firebase Integration**: 
-  - Authentication with email/password
-  - PostgreSQL database with Row Level Security (RLS)
-  - File storage for images
-  - Real-time subscriptions
-- **Tailwind CSS**: Utility-first styling with custom design system
-- **Mobile Responsive**: Optimized for all screen sizes
-- **SEO Optimized**: Proper meta tags and semantic HTML
+- **Advanced Features**
+  - Real-time interactive maps with satellite imagery
+  - Weather alerts and agricultural insights
+  - Multi-language support (Arabic, French, English)
+  - Offline-first PWA capabilities
+  - Advanced image optimization
+  - Real-time updates
 
-## 🛠️ Tech Stack
+## 🚀 Quick Start
 
-- **Frontend**: Next.js 14, TypeScript, Tailwind CSS
-- **Backend**: Firebase (PostgreSQL, Auth, Storage)
-- **Deployment**: Vercel (recommended)
-- **State Management**: React hooks, Firebase client
-- **Styling**: Tailwind CSS with custom agricultural theme
+### Prerequisites
 
-## 📁 Project Structure
+- Node.js 18+ 
+- npm or yarn
+- Supabase account
 
-```
-src/
-├── app/                    # Next.js 14 App Router
-│   ├── about/             # About page
-│   ├── auth/              # Authentication pages
-│   │   ├── login/         # Login page
-│   │   └── signup/        # Signup page
-│   ├── contact/           # Contact page
-│   ├── dashboard/         # User dashboard
-│   ├── equipment/         # Equipment marketplace
-│   │   ├── [id]/         # Equipment detail page
-│   │   └── new/          # Create equipment listing
-│   ├── land/              # Land marketplace
-│   │   ├── [id]/         # Land detail page
-│   │   └── new/          # Create land listing
-│   ├── profile/           # User profile management
-│   └── listings/          # General listing creation
-├── components/            # Reusable React components
-│   ├── auth/             # Authentication components
-│   ├── equipment/        # Equipment-specific components
-│   ├── Header.tsx        # Main navigation
-│   ├── Footer.tsx        # Footer component
-│   └── ...
-├── contexts/             # React contexts
-│   └── AuthContext.tsx   # Authentication context
-├── hooks/                # Custom React hooks
-│   └── useData.ts        # Data fetching hooks
-├── lib/                  # Utility functions
-│   └── Firebase/         # Firebase client configuration
-├── types/                # TypeScript type definitions
-│   └── database.types.ts # Database type definitions
-└── globals.css           # Global styles with custom theme
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/autonomyowner/elghella.git
+cd elghella
 ```
 
-## 🚀 Getting Started
+2. Install dependencies:
+```bash
+npm install
+```
 
-1. **Clone the repository**
-   ```bash
-   git clone [repository-url]
-   cd elghellav1
-   ```
+3. Set up environment variables:
+Create a `.env.local` file with:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+```
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+4. Run development server:
+```bash
+npm run dev
+```
 
-3. **Set up environment variables**
-   Create a `.env.local` file with your Firebase credentials:
-   ```
-   NEXT_PUBLIC_Firebase_URL=your_Firebase_url
-   NEXT_PUBLIC_Firebase_ANON_KEY=your_Firebase_anon_key
-   ```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-4. **Run the development server**
-   ```bash
-   npm run dev
-   ```
+## 📦 Deployment to Vercel
 
-5. **Open in browser**
-   Navigate to `http://localhost:3000`
+### One-Click Deploy
 
-## 📊 Database Schema
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/autonomyowner/elghella)
 
-### Key Tables
-- **profiles**: User profile information
-- **equipment**: Agricultural equipment listings
-- **land_listings**: Agricultural land listings
-- **categories**: Equipment categories
-- **storage**: File storage for images
+### Manual Deployment
 
-### Security
-- Row Level Security (RLS) enabled on all tables
-- User-specific data access controls
-- Secure file upload and storage
+1. Install Vercel CLI:
+```bash
+npm i -g vercel
+```
 
-## 🔄 Current Status
+2. Deploy:
+```bash
+vercel
+```
 
-### ✅ Completed
-- Complete authentication system
-- Equipment marketplace (CRUD operations)
-- Land marketplace (CRUD operations)
-- User profile management
-- Responsive design with mobile optimization
-- Firebase integration with real-time updates
-- Image upload and storage
-- Advanced search and filtering
+3. Set environment variables in Vercel Dashboard:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`
 
-### 📋 Future Enhancements
-- Messaging system between users
-- Favorites/wishlist functionality
-- Advanced notifications
-- Payment integration
-- Review and rating system
-- Mobile app development
+## 🏗️ Tech Stack
 
-## 🤝 Contributing
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Database**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth
+- **Styling**: Tailwind CSS
+- **Maps**: Leaflet, OpenStreetMap
+- **Deployment**: Vercel
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+## 📱 Progressive Web App
+
+The application is fully PWA-enabled with:
+- Offline functionality
+- Service worker caching
+- Install to home screen capability
+- Background sync
+
+## 🔐 Authentication
+
+Supports multiple authentication methods:
+- Email/Password
+- Magic Link
+- Social Login (Google, Facebook)
+
+## 🗺️ Map Features
+
+- Interactive maps with real-time location
+- Satellite imagery integration
+- Weather overlays
+- Location-based search
+- Wilaya (province) boundaries
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+Copyright © 2025 Elghella AgriTech. All rights reserved.
+
+## 🤝 Contributing
+
+This is a private project. For any inquiries, please contact the development team.
+
+## 📞 Support
+
+For support, please contact: support@elghella.com
 
 ---
 
-**الغلة (La Ghalla)** - Connecting farmers and investors in the agricultural sector through innovative digital solutions. 🌱
+Built with ❤️ for Algerian Agriculture
