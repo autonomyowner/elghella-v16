@@ -3,6 +3,8 @@
 import React, { Suspense, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import BrowserCache from '@/lib/browserCache';
+import CLSOptimizer from '@/components/CLSOptimizer';
+import AggressiveCLSPrevention from '@/components/AggressiveCLSPrevention';
 
 // Dynamic imports for better performance
 const ConditionalHeader = dynamic(() => import("@/components/ConditionalHeader"), {
@@ -55,6 +57,8 @@ const ClientLayout: React.FC<ClientLayoutProps> = ({ children }) => {
     <SupabaseAuthProvider>
       <SearchProvider>
         <PerformanceOptimizer />
+        <CLSOptimizer />
+        <AggressiveCLSPrevention />
         <ConditionalHeader />
         <main className="min-h-screen">
           {children}

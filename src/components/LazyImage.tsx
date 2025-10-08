@@ -102,9 +102,8 @@ const LazyImage: React.FC<LazyImageProps> = ({
         minHeight: fill ? '200px' : height
       }}
     >
-      <AnimatePresence mode="wait">
-        {/* Loading state */}
-        {!isLoaded && !isError && (
+      {/* Loading state */}
+      {!isLoaded && !isError && (
           <motion.div
             key="loading"
             initial={{ opacity: 1 }}
@@ -156,7 +155,6 @@ const LazyImage: React.FC<LazyImageProps> = ({
             />
           </motion.div>
         )}
-      </AnimatePresence>
     </div>
   );
 };

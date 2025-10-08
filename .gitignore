@@ -130,3 +130,39 @@ ui-debug.log
 # Temporary files
 *.tmp
 *.temp
+
+# Documentation and non-production files
+*.md
+*.MD
+!README.md
+*.sql
+*.pub
+*.html
+*.lnk
+*.txt
+error.txt
+tatus
+
+# Test and debug files
+test-*.js
+test-*.sql
+test-*.md
+check-*.js
+check-*.sql
+query-*.js
+debug-*.sql
+sample-*.sql
+create-*.sql
+fix-*.sql
+setup-*.sql
+insert-*.js
+mcp-*.js
+real-time-*.js
+
+# Scripts and utilities (keep only essential ones)
+scripts/
+
+# Cursor and IDE files
+.cursor
+.cursorrules
+.cursorignore

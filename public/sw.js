@@ -1,6 +1,6 @@
 // Service Worker for Elghella - Agricultural Marketplace
-const CACHE_NAME = 'elghella-v2';
-const urlsToCache = [
+const CACHE_NAME = 'elghella-v3';
+const PRECACHE_URLS = [
   '/',
   '/assets/n7l1.webp',
   '/assets/n7l2.webp',
@@ -8,58 +8,67 @@ const urlsToCache = [
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'
 ];
 
-// Install event
 self.addEventListener('install', (event) => {
+  // Activate the new worker immediately
+  self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS)).catch(() => Promise.resolve())
   );
 });
 
-// Fetch event - Network First strategy for better updates
+self.addEventListener('activate', (event) => {
+  // Take control of uncontrolled clients ASAP
+  event.waitUntil(
+    (async () => {
+      const cacheNames = await caches.keys();
+      await Promise.all(
+        cacheNames.map((name) => (name !== CACHE_NAME ? caches.delete(name) : Promise.resolve()))
+      );
+      await self.clients.claim();
+    })()
+  );
+});
+
+// Support manual skipWaiting from the page
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+
 self.addEventListener('fetch', (event) => {
-  // Skip caching for development
-  if (event.request.url.includes('localhost') || event.request.url.includes('127.0.0.1')) {
+  const { request } = event;
+
+  // Ignore dev/local
+  if (request.url.includes('localhost') || request.url.includes('127.0.0.1')) return;
+
+  const isNavigation = request.mode === 'navigate' || (request.headers.get('accept') || '').includes('text/html');
+  const isNextData = request.url.includes('/_next/data/');
+
+  // For HTML and Next.js data JSON, always go to network without caching
+  if (isNavigation || isNextData) {
+    event.respondWith(
+      fetch(request, { cache: 'no-store' }).catch(() => caches.match(request))
+    );
     return;
   }
 
+  // Default: network-first with cache fallback
   event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        // Clone the response before caching
-        const responseClone = response.clone();
-        
-        // Cache successful responses
-        if (response.status === 200) {
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseClone);
-          });
+    (async () => {
+      try {
+        const fresh = await fetch(request);
+        const clone = fresh.clone();
+        if (fresh.status === 200) {
+          const cache = await caches.open(CACHE_NAME);
+          await cache.put(request, clone);
         }
-        
-        return response;
-      })
-      .catch(() => {
-        // Fallback to cache if network fails
-        return caches.match(event.request);
-      })
+        return fresh;
+      } catch (err) {
+        const cached = await caches.match(request);
+        if (cached) return cached;
+        throw err;
+      }
+    })()
   );
 });
-
-// Activate event
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
-  );
-}); 

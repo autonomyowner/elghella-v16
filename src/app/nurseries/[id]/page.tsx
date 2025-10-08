@@ -159,18 +159,12 @@ const NurseryDetailPage: React.FC = () => {
     }
 
     try {
-      const result = await deleteNursery(nursery.id);
-      
-      if (result.error) {
-        alert('حدث خطأ أثناء حذف الإعلان');
-        console.error('Error deleting nursery:', result.error);
-      } else {
-        alert('تم حذف الإعلان بنجاح');
-        router.push('/nurseries');
-      }
+      await deleteNursery(nursery.id);
+      alert('تم حذف الإعلان بنجاح');
+      router.push('/nurseries');
     } catch (error) {
       console.error('Error deleting nursery:', error);
-      alert('حدث خطأ غير متوقع');
+      alert('حدث خطأ أثناء حذف الإعلان');
     }
   };
 

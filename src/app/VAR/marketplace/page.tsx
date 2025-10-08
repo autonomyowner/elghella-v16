@@ -516,9 +516,8 @@ const VegetablesMarketplacePage: React.FC = () => {
           ) : listings.length > 0 ? (
             <>
               <div className={`${viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8' : 'space-y-4'}`}>
-                <AnimatePresence>
-                  {listings.map((vegetable, index) => (
-                    <motion.div
+                {listings.map((vegetable, index) => (
+                  <motion.div
                       key={vegetable.id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -623,7 +622,6 @@ const VegetablesMarketplacePage: React.FC = () => {
                       </div>
                     </motion.div>
                   ))}
-                </AnimatePresence>
               </div>
 
               {/* Load More Button */}

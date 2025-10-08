@@ -160,13 +160,14 @@ const LiveLandIntelligenceTool: React.FC = () => {
       ]);
 
       // Extract successful results and handle failures gracefully
-      const [nasaResult, openWeatherResult, sentinelResult, usgsErosResult] = results.map((result, index) => {
-        if (result.status === 'fulfilled') {
-          return result.value;
-        } else {
+      const nasaResult = results[0].status === 'fulfilled' ? results[0].value as NasaData : null;
+      const openWeatherResult = results[1].status === 'fulfilled' ? results[1].value as OpenWeatherData : null;
+      const sentinelResult = results[2].status === 'fulfilled' ? results[2].value as SentinelData : null;
+      const usgsErosResult = results[3].status === 'fulfilled' ? results[3].value as UsgsErosData : null;
+      
+      results.forEach((result, index) => {
+        if (result.status === 'rejected') {
           console.warn(`API ${index} failed:`, result.reason);
-          // Return fallback data for failed APIs
-          return null;
         }
       });
 

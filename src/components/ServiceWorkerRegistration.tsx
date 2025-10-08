@@ -4,30 +4,52 @@ import { useEffect } from 'react';
 
 const ServiceWorkerRegistration = () => {
   useEffect(() => {
-    const registerCacheBustingSW = async () => {
-      if ('serviceWorker' in navigator) {
-        try {
-          // Only register in development and if not already registered
-          if (process.env.NODE_ENV === 'development') {
-            // Unregister any existing service workers first
-            const registrations = await navigator.serviceWorker.getRegistrations();
-            for (const registration of registrations) {
-              await registration.unregister();
-            }
-            
-            console.log('Service workers unregistered for development mode');
-          }
-        } catch (error) {
-          console.error('Service Worker cleanup failed:', error);
+    const manageSW = async () => {
+      if (!('serviceWorker' in navigator)) return;
+
+      try {
+        if (process.env.NODE_ENV === 'development') {
+          const regs = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(regs.map((r) => r.unregister()));
+          console.log('Service workers unregistered (development)');
+          return;
         }
+
+        // Production: register and auto-update
+        const registration = await navigator.serviceWorker.register('/sw.js');
+
+        // If there's a waiting worker, tell it to activate
+        if (registration.waiting) {
+          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        }
+
+        // When an update is found, force the new SW to take control
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          if (!newWorker) return;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && registration.waiting) {
+              registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+            }
+          });
+        });
+
+        // When controller changes, reload once to pick up fresh assets
+        let reloaded = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (reloaded) return;
+          reloaded = true;
+          window.location.reload();
+        });
+      } catch (err) {
+        console.warn('Service Worker registration issue:', err);
       }
     };
 
-    registerCacheBustingSW();
+    manageSW();
   }, []);
 
-  // This component doesn't render anything
   return null;
 };
 
-export default ServiceWorkerRegistration; 
+export default ServiceWorkerRegistration;

@@ -253,8 +253,8 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({ cropType, landArea, reg
         newBreakdown.seeds[field as keyof typeof newBreakdown.seeds] = value;
         newBreakdown.seeds.totalCost = newBreakdown.seeds.quantity * newBreakdown.seeds.pricePerUnit;
       } else if (section === 'fertilizers' || section === 'pesticides') {
-        const sectionData = newBreakdown[section as keyof typeof newBreakdown];
-        const fieldData = sectionData[field as keyof typeof sectionData];
+        const sectionData = newBreakdown[section as keyof typeof newBreakdown] as any;
+        const fieldData = sectionData[field as keyof typeof sectionData] as any;
         if (fieldData && typeof fieldData === 'object' && 'kg' in fieldData) {
           fieldData.kg = value;
           fieldData.total = fieldData.kg * fieldData.pricePerKg;
@@ -263,11 +263,11 @@ const CostCalculator: React.FC<CostCalculatorProps> = ({ cropType, landArea, reg
           fieldData.total = fieldData.liters * fieldData.pricePerLiter;
         }
       } else if (section === 'labor') {
-        const laborData = newBreakdown.labor[field as keyof typeof newBreakdown.labor];
+        const laborData = newBreakdown.labor[field as keyof typeof newBreakdown.labor] as any;
         laborData.hours = value;
         laborData.total = laborData.hours * laborData.ratePerHour;
       } else if (section === 'irrigation' || section === 'equipment') {
-        newBreakdown[section][field as keyof typeof newBreakdown[section]] = value;
+        (newBreakdown[section] as any)[field as keyof typeof newBreakdown[typeof section]] = value;
       }
       return newBreakdown;
     });

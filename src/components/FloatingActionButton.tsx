@@ -81,7 +81,7 @@ const FloatingActionButton = () => {
             : 'bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600'
         }`}
       >
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
           {isOpen ? (
             <motion.div
               key="close"

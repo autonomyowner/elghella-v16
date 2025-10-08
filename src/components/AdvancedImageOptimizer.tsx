@@ -265,9 +265,8 @@ const AdvancedImageOptimizer: React.FC<AdvancedImageOptimizerProps> = ({
         aspectRatio: aspectRatio ? aspectRatio.toString() : undefined
       }}
     >
-      <AnimatePresence mode="wait">
-        {/* Loading state */}
-        {!isLoaded && !isError && (
+      {/* Loading state */}
+      {!isLoaded && !isError && (
           <motion.div
             key="loading"
             initial={{ opacity: 1 }}
@@ -336,7 +335,6 @@ const AdvancedImageOptimizer: React.FC<AdvancedImageOptimizerProps> = ({
             </picture>
           </motion.div>
         )}
-      </AnimatePresence>
 
       {/* Quality indicator (development only) */}
       {process.env.NODE_ENV === 'development' && (

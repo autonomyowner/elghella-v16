@@ -96,7 +96,7 @@ const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({
       </div>
       
       {/* Current Step Details */}
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {steps.find(step => step.id === currentStep) && (
           <motion.div
             key={currentStep}
